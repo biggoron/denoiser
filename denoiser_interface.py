@@ -8,7 +8,7 @@ class Denoiser:
         self.model = torch.load(model_path)
         self.model.eval()
         # Replicates the args of the denoiser lib
-        self.args = namedtuple('EstimateArgs', ['batch_size', 'streaming', 'dry'])(batch_size=1, streaming=True, dry=0)
+        self.args = namedtuple('EstimateArgs', ['batch_size', 'streaming', 'dry'])(batch_size=1, streaming=False, dry=0)
         
     def denoise(self, pcm):
         input_audio = torch.Tensor(pcm_to_numpy(pcm)).unsqueeze(dim=0).unsqueeze(dim=0)
