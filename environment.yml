@@ -1,0 +1,67 @@
+name: denoiser-prod
+channels:
+  - pytorch
+  - anaconda
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1
+  - blas=1.0
+  - ca-certificates=2020.10.14
+  - certifi=2020.6.20
+  - click=7.1.2
+  - cpuonly=1.0
+  - flask=1.1.2
+  - freetype=2.10.4
+  - intel-openmp=2020.2
+  - itsdangerous=1.1.0
+  - jinja2=2.11.2
+  - jpeg=9b
+  - lcms2=2.11
+  - ld_impl_linux-64=2.33.1
+  - libedit=3.1.20191231
+  - libffi=3.3
+  - libgcc-ng=9.1.0
+  - libgfortran-ng=7.3.0
+  - libopenblas=0.3.10
+  - libpng=1.6.37
+  - libstdcxx-ng=9.1.0
+  - libtiff=4.1.0
+  - lz4-c=1.9.2
+  - markupsafe=1.1.1
+  - mkl=2020.2
+  - ncurses=6.2
+  - ninja=1.10.1
+  - numpy=1.19.1
+  - numpy-base=1.19.1
+  - olefile=0.46
+  - openssl=1.1.1h
+  - pillow=8.0.0
+  - pip=20.2.4
+  - python=3.8.5
+  - readline=8.0
+  - setuptools=50.3.0
+  - six=1.15.0
+  - sqlite=3.33.0
+  - tk=8.6.10
+  - torchvision=0.5.0
+  - werkzeug=1.0.1
+  - wheel=0.35.1
+  - xz=5.2.5
+  - zlib=1.2.11
+  - zstd=1.4.5
+  - pip:
+    - cffi==1.14.3
+    - colorlog==4.4.0
+    - future==0.18.2
+    - hydra-colorlog==0.1.4
+    - hydra-core==0.11.3
+    - omegaconf==1.4.1
+    - pycparser==2.20
+    - pystoi==0.3.3
+    - pyyaml==5.3.1
+    - scipy==1.5.3
+    - sounddevice==0.4.1
+    - torch==1.6.0
+    - torchaudio==0.6.0
+prefix: /home/dan/anaconda3/envs/denoiser-prod
+
