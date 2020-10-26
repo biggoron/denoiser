@@ -4,7 +4,7 @@ from denoiser_interface import Denoiser
 
 app = flask.Flask(__name__)
 app.buffers = [VoiceBuffer()] * 4
-app.model = Denoiser('model.pkl')
+app.model = Denoiser('models/model.pkl')
 
 @app.route("/denoise", methods=["GET"])
 def denoise():
