@@ -26,4 +26,4 @@ class Denoiser:
         )
         output_audio = torch.clamp(output_audio, -2 ** 15, 2 ** 15 - 1)
         output_audio = output_audio.numpy().astype(int) # Back to numpy
-        return output_audio[0][0]
+        return output_audio[0][0].tolist()

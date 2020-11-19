@@ -1,6 +1,6 @@
 class VoiceBuffer():
     def __init__(self, size=16e3, start=0, end=0):
-        self.buffer = None
+        self.buffer = []
         self.size = size
         self.start = start
         self.end = end

@@ -96,12 +96,12 @@ def update_user():
 def denoise():
     raw_data = flask.request.get_data()
     uid = flask.request.args.get('uid')
-    sid = flask.request.args.get('sid')
+    sid = int(flask.request.args.get('sid'))
     flask.current_app.buffers[uid].append(raw_data)
     if flask.current_app.buffers[uid].is_full:
         batch = flask.current_app.buffers[uid].flush()
         batch = flask.current_app.model.denoise(batch)
-        return flask.jsonify(uid=uid, sid=sid, data=batch.tolist(), status=2)
+        return flask.jsonify(uid=uid, sid=sid, data=batch, status=2)
     else:
         return flask.jsonify(uid=uid, sid=sid, data=[], status=1)
 
@@ -114,10 +114,11 @@ def reset():
 @app.route("/flush", methods=["POST"])
 def flush():
     uid = flask.request.args.get('uid')
-    sid = flask.request.args.get('sid')
+    sid = int(flask.request.args.get('sid'))
     batch = flask.current_app.buffers[uid].flush()
-    batch = flask.current_app.model.denoise(batch)
-    return flask.jsonify(uid=uid, sid=sid, data=batch.tolist(), status=2)
+    if len(batch) > 0:
+        batch = flask.current_app.model.denoise(batch)
+    return flask.jsonify(uid=uid, sid=sid, data=batch, status=2)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
