@@ -13,6 +13,6 @@ class Denoiser:
     def denoise(self, pcm):
         input_audio = torch.Tensor(pcm_to_numpy(pcm)).unsqueeze(dim=0).unsqueeze(dim=0)
         output_audio = get_estimate(self.model, input_audio, self.args).numpy()
-        return numpy_to_pcm(output_audio)
+        return output_audio
         
     
