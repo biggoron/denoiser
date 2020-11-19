@@ -1,16 +1,24 @@
+import argparse
 import flask
 from flask import abort
 from voice_buffer import VoiceBuffer
 from denoiser_interface import Denoiser
 import sys
 
+parser = argparse.ArgumentParser(description='Builds denoising server')
+parser.add_argument('--port', type=int, default=8080,
+                    help='Port on which to run the server.')
+parser.add_argument('--buffer', type=int, default=1000,
+                    help='Default buffer size in milliseconds.')
+args = parser.parse_args()
+
 app = flask.Flask(__name__)
 # Default gives 4 Users, from 1 to 4
 app.buffers = {
-    '1': VoiceBuffer(),
-    '2': VoiceBuffer(),
-    '3': VoiceBuffer(),
-    '4': VoiceBuffer(),
+    '1': VoiceBuffer(args.buffer),
+    '2': VoiceBuffer(args.buffer),
+    '3': VoiceBuffer(args.buffer),
+    '4': VoiceBuffer(args.buffer),
 } # Could be changed with user API
 app.model = Denoiser('models/model.pkl')
 
@@ -35,7 +43,7 @@ def new_user():
         No uid parameter providing user name was found.
         """
         abort(400, error_message)
-    flask.current_app.buffers[uid] = VoiceBuffer()
+    flask.current_app.buffers[uid] = VoiceBuffer(args.buffer)
     users = list(flask.current_app.buffers.keys())
     return flask.jsonify(users=users, status=1)
 
@@ -121,8 +129,4 @@ def flush():
     return flask.jsonify(uid=uid, sid=sid, data=batch, status=2)
 
 if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        port = sys.argv[1]
-    else:
-        port = 8080
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=args.port)
