@@ -12,8 +12,18 @@ class Denoiser:
         self.args = namedtuple('EstimateArgs', ['batch_size', 'streaming', 'dry'])(batch_size=1, streaming=True, dry=0)
         
     def denoise(self, pcm):
-        input_audio = torch.Tensor(pcm_to_numpy(pcm)).unsqueeze(dim=0).unsqueeze(dim=0).to(self.device)
-        output_audio = get_estimate(self.model, input_audio, self.args).cpu().numpy()
-        return output_audio
-        
-    
+        input_audio = (
+            torch
+            .Tensor(pcm_to_numpy(pcm))
+            .unsqueeze(dim=0)
+            .unsqueeze(dim=0)
+            .to(self.device)
+        )
+        output_audio = (
+            get_estimate(self.model, input_audio, self.args)
+            .cpu()
+            .mul(2 ** 15) # Back to int
+        )
+        output_audio = torch.clamp(output_audio, -2 ** 15, 2 ** 15 - 1)
+        output_audio = output_audio.numpy().astype(int) # Back to numpy
+        return output_audio[0][0]
