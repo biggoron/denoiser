@@ -3,10 +3,14 @@ from flask import abort
 from voice_buffer import VoiceBuffer
 
 
-def get_users(buffer_size, nb_users=4, target_log_power=-8.5):
+def get_users(buffer_size, nb_users=4, target_log_power=-12, time_filter_length=0.3):
     # Default gives 4 Users, from 1 to 4
     return {
-        f'{i}': VoiceBuffer(buffer_size, target_log_power=target_log_power)
+        f'{i}': VoiceBuffer(
+            buffer_size,
+            target_log_power=target_log_power,
+            time_filter_length=time_filter_length,
+            )
         for i in range (1, 1+nb_users)
     }
 

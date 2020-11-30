@@ -1,12 +1,12 @@
 from normalizer import Normalizer
 
 class VoiceBuffer():
-    def __init__(self, size=1000, start=0, end=0, target_log_power=-8.5):
+    def __init__(self, size=1000, start=0, end=0, target_log_power=-12, time_filter_length=0.3):
         self.buffer = []
         self.size = 16 * size
         self.start = start
         self.end = end
-        self.normalizer = Normalizer(target_log_power=target_log_power)
+        self.normalizer = Normalizer(target_log_power=target_log_power, time_filter_length=time_filter_length)
         
     @property
     def is_full(self):

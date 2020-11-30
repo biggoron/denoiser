@@ -4,9 +4,9 @@ from scipy import signal
 import numpy as np
 
 class Normalizer:
-    def __init__(self, target_log_power=-8.5, time_lag=1):
+    def __init__(self, target_log_power=-12, time_filter_length=0.3):
         self.target_log_power = target_log_power
-        self.state = int(10 * time_lag) * [0] # Initial correction is 0 db
+        self.state = int(10 * time_filter_length) * [0] # Initial correction is 0 db
         self.offset = 0
 
     def normalize(self, batch):

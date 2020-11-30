@@ -8,5 +8,7 @@ def get_args():
                         help='Default buffer size in milliseconds.')
     parser.add_argument('--target_log_power', type=float, default=-8.5,
                         help='Default target log power for top resonants.')
+    parser.add_argument('--time_filter_length', type=float, default=0.3,
+                        help='Time over which AGC correction is smoothed. in sec.')
     args = parser.parse_args()
     return args

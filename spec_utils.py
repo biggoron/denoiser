@@ -19,14 +19,14 @@ def find_res(s):
         for jump in range(5, 10):
             if offset + jump * 2 + 3 > 30:
                 continue
-            total = s[get_ranges(offset, jump)].mean()
+            total = np.sort(s[get_ranges(offset, jump)].flatten())[-10:].mean()
             if total > maximum:
                 max_offset = offset
                 max_jump = jump
                 maximum = total
     return maximum
 
-def estimate_db_correction(s, output_shape, ref = -8.5, state=[0]*10, offset=0):
+def estimate_db_correction(s, output_shape, ref = -12, state=[0]*3, offset=0):
     corrections = []
     print(ref)
     for i in chunked(range(s.shape[1]), 10):
