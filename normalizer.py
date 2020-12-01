@@ -28,4 +28,4 @@ class Normalizer:
         self.offset = offset
         corrected = np.sqrt(np.exp(corrections_db)) * batch
         scaled_and_clipped = np.clip(corrected * (2**15), -2**15, 2**15 - 1)
-        return list(scaled_and_clipped)
+        return [int(value) for value in list(scaled_and_clipped)]
