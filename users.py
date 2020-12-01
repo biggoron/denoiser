@@ -29,6 +29,7 @@ def define_api(app):
         - Creates user buffer with uid
         - returns list of all users after creation of the new user
         """
+        args = flask.current_app.args
         try:
             uid = flask.request.args['uid']
         except KeyError:
@@ -37,7 +38,11 @@ def define_api(app):
             No uid parameter providing user name was found.
             """
             abort(400, error_message)
-        flask.current_app.buffers[uid] = VoiceBuffer(args.buffer)
+        flask.current_app.buffers[uid] = VoiceBuffer(
+            args.buffer,
+            target_log_power=args.target_log_power,
+            time_filter_length=args.time_filter_length,
+            )
         users = list(flask.current_app.buffers.keys())
         return flask.jsonify(users=users, status=1)
 
@@ -75,6 +80,7 @@ def define_api(app):
         - status is 1 if success, 0 if user not found
         WARNING: buffer is lost
         """
+        args = flask.current_app.args
         try:
             uid_old = flask.request.args['uid_old']
             uid_new = flask.request.args['uid_new']
@@ -89,7 +95,11 @@ def define_api(app):
             status = 1
         except KeyError:
             status = 0
-        flask.current_app.buffers[uid_new] = VoiceBuffer()
+        flask.current_app.buffers[uid_new] = VoiceBuffer(
+            args.buffer,
+            target_log_power=args.target_log_power,
+            time_filter_length=args.time_filter_length,
+            )
         users = list(flask.current_app.buffers.keys())
         return flask.jsonify(users=users, status=status)
 

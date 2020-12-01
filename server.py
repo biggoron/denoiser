@@ -7,6 +7,7 @@ from users import get_users, define_api
 
 args = get_args()
 app = flask.Flask(__name__)
+app.args = args
 
 app.buffers = get_users(args.buffer, 4, args.target_log_power, args.time_filter_length)
 define_api(app)
