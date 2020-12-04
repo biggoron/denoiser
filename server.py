@@ -30,8 +30,11 @@ def flush():
     uid = flask.request.args.get('uid')
     sid = int(flask.request.args.get('sid'))
     batch = flask.current_app.buffers[uid].flush()
-    if len(batch) > 0:
+    if len(batch) > 0: # 25ms * 16 samples per ms
+        # Not enough data to fill a Fourier window (25ms)
         batch = flask.current_app.buffers[uid].normalizer.normalize(batch)
+    else:
+        batch=[]
     return flask.jsonify(uid=uid, sid=sid, data=batch, status=2)
 
 if __name__ == '__main__':
