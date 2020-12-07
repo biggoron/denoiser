@@ -31,7 +31,7 @@ def estimate_db_correction(s, output_shape, ref = -12, state=[0]*3, offset=0):
     print(ref)
     for i in chunked(range(s.shape[1]), 10):
         # by chunk of 100ms, only on first 30 coeffs
-        batch = np.log(s[:30, i])
+        batch = np.log(s[:30, i] + 10e-6)
         res = np.apply_along_axis(find_res, 0, batch.mean(axis=1))
         boolean = (res - batch.mean()) > 2 # Indicates if there is enough resonance to calculate correction
         if boolean:
