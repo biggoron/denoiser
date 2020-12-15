@@ -11,13 +11,13 @@ class Normalizer:
 
     def normalize(self, batch):
         batch = pcm_to_numpy(batch)
-        if len(batch) > 25 * 16: # 25ms * 16 samples per ms:
+        if len(batch) > 32 * 16: # 25ms * 16 samples per ms:
             _, _, spectrogram = signal.spectrogram(
                 batch,
                 fs=16e3,
                 window='hamming',
-                nperseg=16*25,
-                noverlap=16*15,
+                nperseg=16*32,
+                noverlap=16*22,
                 scaling='spectrum')
             corrections_db, state, offset = estimate_db_correction(
                 spectrogram,
@@ -30,7 +30,8 @@ class Normalizer:
             corrected = np.sqrt(np.exp(corrections_db)) * batch
         else:
             # Not enough data to compute a correction (not enough to fill a fourier window)
-            correction = np.mean(self.state) # keep last correction
-            corrected = np.sqrt(np.exp(correction)) * batch
+            corrections_db = np.mean(self.state) # keep last correction
+            corrected = np.sqrt(np.exp(corrections_db)) * batch
         scaled_and_clipped = np.clip(corrected * (2**15), -2**15, 2**15 - 1)
-        return [int(value) for value in list(scaled_and_clipped)]
+        return list(np.sqrt(np.exp(corrections_db)))
+        # return [int(value) for value in list(scaled_and_clipped)]
